@@ -13,6 +13,18 @@ class ArticleController extends Controller
         return view('article.index', compact('articles'));
     }
 
+    public function show($id)
+    {
+        $article = Article::findOrFail($id);
+        return view('article.show', compact('article'));
+    }
+
+    public function create()
+    {
+        $article = new Article();
+        return view('article.create', compact('article'));
+    }
+
     public function store(Request $request)
     {
         $data = $this->validate($request, [
@@ -24,18 +36,6 @@ class ArticleController extends Controller
         $article->save();
         $request->session()->flash('success', 'Статья успешно добавлена!');
         return redirect()->route('articles.index');
-    }
-
-    public function create()
-    {
-        $article = new Article();
-        return view('article.create', compact('article'));
-    }
-
-    public function show($id)
-    {
-        $article = Article::findOrFail($id);
-        return view('article.show', compact('article'));
     }
 
     public function edit($id)
@@ -54,6 +54,16 @@ class ArticleController extends Controller
         $article->fill($data);
         $article->save();
         $request->session()->flash('success', 'Статья успешно обновлена!');
+        return redirect()->route('articles.index');
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $article = Article::find($id);
+        if ($article) {
+            $article->delete();
+        }
+        $request->session()->flash('success', 'Статья успешно удалена!');
         return redirect()->route('articles.index');
     }
 }
