@@ -11,10 +11,11 @@
     </head>
     <body>
         <div class="container mt-4">
-            <h1>@yield('header')</h1>
-            <div>
-                @yield('content')
-            </div>
+            <a href="{{ route('about') }}">О блоге</a>
+            <a href="{{ route('articles.index') }}">Список статей</a>
+        </div>
+        <div class="container mt-4">
+            @yield('content')
         </div>
     </body>
 </html>
